@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    function get_location() {
+        alert("1");
+        if(navigator.geolocation) {
+            alert("2");
+            navigator.geolocation.getCurrentPosition(function(position){
+                // 显示地理信息
+                var longitude = position.coords.longitude,
+                        latitude = position.coords.latitude;
+                showObject(position.coords,0);
+            },function(err){
+                // 错误处理
+                switch(err.code) {
+                    case 1:
+                        alert("位置服务被拒绝。");
+                        break;
+
+                    case 2:
+                        alert("暂时获取不到位置信息。");
+                        break;
+
+                    case 3:
+                        alert("获取信息超时。");
+                        break;
+
+                    default:
+                        alert("未知错误。");
+                        break;
+                }
+            },{
+                enableHighAccuracy: true,
+                maximumAge: 100,
+                accuracy:100
+            })
+        }else {
+            alert("你的浏览器不支持使用HTML5来获取地理位置信息");
+        }
+    }
+    function showObject(obj,k) {
+        alert("2");
+        // 递归显示obj
+        if(!obj) {return;}
+        for(var i in obj) {
+            if(typeof(obj[i] != "object") || obj[i] == null) {
+                for(var j = 0; j < k; j++) {
+                    document.write("&nbsp;&nbsp;&nbsp;&nbsp;")
+                }
+                document.write(i + " : " + obj[i] + "<br/>");
+            }else {
+                document.write(i + " : "+"<br/>");
+                showObject(obj[i],k+1);
+            }
+        }
+    }
+    get_location();
+</script>
+</body>
+</html>
